@@ -1,0 +1,64 @@
+body{
+    display: grid;
+    place-content: center;
+    height:100vh;
+}
+
+.conteiner{
+    display: grid;
+    grid-template-columns: repeat(3, 180px);
+    gap: 10px;
+}
+
+.carta{
+   	width: 100%;
+	height: 100%;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.frente{
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    transition: all 500ms ease;
+    margin-bottom: 60px;
+    border-radius: 20px;
+}
+
+.atras{
+    background-color: rgb(236, 165, 177);
+    position: absolute;
+    height: 180px;
+    width: 180px;
+    font-size: 40px;
+    display: grid;
+    place-content: center;
+    font-weight: bold;
+    backface-visibility: hidden;
+    transition: all 500ms ease;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+ .carta-virada.frente{
+     transform: rotateY(0deg);
+ }
+ .carta-virada.atras{
+     transform: rotateY(180deg);
+ }
+
+ .carta-virada{
+     	transform: rotateY(180deg);
+ }
+
+ button{
+    border: none;
+    padding: 11px;
+    width: 250px;
+    font-size:20px ;
+    margin-top: 20px;
+    place-self: center;
+    cursor: pointer;
+    border-radius: 20px;
+}
