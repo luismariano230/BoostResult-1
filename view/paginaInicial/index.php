@@ -1,5 +1,5 @@
 <?php
-session_start();
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +9,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoostResult</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -320,56 +321,73 @@ session_start();
 
         /* Estilo para o painel de mensagens */
         .mensagens-panel {
-        position: fixed;
-        top: 0;
-        left: -500px; /* Ajuste a posição inicial para a nova largura */
-        width: 500px; /* Aumentei a largura do painel */
-        height: 100%;
-        background: #fff;
-        box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
-        transition: left 0.3s ease;
-        z-index: 1000;
-        padding: 20px;
-        border-right: 1px solid #e1e8ed;
-    }
+            position: fixed;
+            top: 0;
+            left: -500px;
+            /* Ajuste a posição inicial para a nova largura */
+            width: 500px;
+            /* Aumentei a largura do painel */
+            height: 100%;
+            background: #fff;
+            box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            border-right: 1px solid #e1e8ed;
+        }
 
-    .mensagens-panel.open {
-        left: 0;
-    }
+        .mensagens-panel.open {
+            left: 0;
+        }
 
-    .mensagens-panel h2 {
-        margin-bottom: 20px;
-    }
+        .mensagens-panel h2 {
+            margin-bottom: 20px;
+        }
 
-    .mensagens-panel .message {
-        margin-bottom: 15px;
-        padding: 10px;
-        border-bottom: 1px solid #e1e8ed;
-    }
+        .mensagens-panel .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #e1e8ed;
+        }
 
-    .mensagens-panel .message .sender {
-        font-weight: bold;
-    }
+        .mensagens-panel .message .sender {
+            font-weight: bold;
+        }
 
-    .mensagens-panel .message .text {
-        color: #657786;
-    }
+        .mensagens-panel .message .text {
+            color: #657786;
+        }
 
-    /* Estilo para o botão de fechar */
-    .close-btn {
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: #333;
-        cursor: pointer;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
+        /* Estilo para o botão de fechar */
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
 
-    .close-btn:hover {
-        color: red;
-    }
+        .close-btn:hover {
+            color: red;
+        }
+
+        #TextDescription {
+            width: 80%;
+            height: 200px;
+            /* Defina a altura desejada */
+            padding-top: 10px;
+            /* Adicione um padding superior para empurrar o texto para baixo */
+            /* Opcional: Remova o padding padrão para ter mais controle */
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 0;
+            /* Garante que o texto fique mais para cima */
+            box-sizing: border-box;
+            /* Garante que o padding seja incluído na altura total */
+        }
     </style>
 </head>
 
@@ -430,7 +448,6 @@ session_start();
                 <input type="file" id="fileUpload" name="foto" accept="image/*" style="display:none;"
                     onchange="this.form.submit();">
             </form>
-    <p>gledson</p>
             <div class="profile-info">
                 <h1 id="nomeConta">
                     <?php echo $_SESSION['nome'] ?>
@@ -439,10 +456,18 @@ session_start();
                     <?php echo $_SESSION['tipo']; ?>
                 </p>
                 <p>
-                    ✨ Criando com paixão | 🌍 Explorando ideias<br>
-                    📸 Compartilhando momentos e inspirações<br>
-                    📬 Contato: seu e-mail ou link
+                    <?php
+                    if ($_SESSION['descricao'] == "") {
+                        echo 'Adicione uma bio!';
+                    } else {
+                        echo $_SESSION['descricao'];
+                    }
+                    ?>
                 </p>
+                <button type="button" class="secondary btn-sm border-0" data-toggle="modal" data-target="#modalExemplo">
+                    Modificar bio
+                </button>
+
             </div>
 
             <div class="button-container">
@@ -489,53 +514,80 @@ session_start();
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mudar Descrição</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="../../app/controller/UsuarioController.php" method="POST">
+                        <label for="descricao">Descrição</label><br>
+                        <textarea id="TextDescription" name="descricao"></textarea><br><br>
+                        <button type="submit" name="acao" value="ATUALIZAR" class="secondary btn-sm border-0"
+                           >Atualizar</button>
+                    </form>
+                </div>
 
-
-    <script>
-        // Função para movimentar a underline entre os botões
-        function loadPageAndHighlight(button, url) {
-            // Atualiza o conteúdo do iframe
-            document.getElementById('myIframe').src = url;
-
-            // Obtém a underline e os elementos do botão
-            const underline = document.getElementById('underline-indicator');
-            const rect = button.getBoundingClientRect();
-            const containerRect = button.parentElement.getBoundingClientRect();
-
-            // Aplica a posição e o tamanho da underline
-            underline.style.width = rect.width + "px";
-            underline.style.left = (rect.left - containerRect.left) + "px";
-
-            // Ativa a transição (apenas se não for o botão inicial)
-            setTimeout(() => {
-                button.parentElement.classList.add('transition');
-            }, 10); // Atrasar um pouco para garantir que a transição funcione
-
-            // Adiciona uma classe para que a transição ocorra depois de clicar em um botão
-            document.querySelectorAll('.button-container button').forEach(btn => {
-                btn.classList.remove('active'); // Remove a classe "active" dos outros botões
-            });
-            button.classList.add('active'); // Adiciona a classe "active" ao botão clicado
-        }
-
-        // Adiciona a underline no botão 1 ao carregar a página
-        window.onload = function () {
-            const firstButton = document.getElementById('button1');
-            loadPageAndHighlight(firstButton, 'informacoes/treinos.php'); // URL padrão ao carregar
-        };
-
-        // Controla a abertura e fechamento do painel de mensagens
-        document.getElementById('mensagens-btn').addEventListener('click', function () {
-            const panel = document.getElementById('mensagens-panel');
-            panel.classList.toggle('open');
-        });
-
-        // Fecha o painel de mensagens quando o botão "X" for clicado
-        document.getElementById('close-btn').addEventListener('click', function () {
-            const panel = document.getElementById('mensagens-panel');
-            panel.classList.remove('open');
-        });
-    </script>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    // Função para movimentar a underline entre os botões
+    function loadPageAndHighlight(button, url) {
+        // Atualiza o conteúdo do iframe
+        document.getElementById('myIframe').src = url;
+
+        // Obtém a underline e os elementos do botão
+        const underline = document.getElementById('underline-indicator');
+        const rect = button.getBoundingClientRect();
+        const containerRect = button.parentElement.getBoundingClientRect();
+
+        // Aplica a posição e o tamanho da underline
+        underline.style.width = rect.width + "px";
+        underline.style.left = (rect.left - containerRect.left) + "px";
+
+        // Ativa a transição (apenas se não for o botão inicial)
+        setTimeout(() => {
+            button.parentElement.classList.add('transition');
+        }, 10); // Atrasar um pouco para garantir que a transição funcione
+
+        // Adiciona uma classe para que a transição ocorra depois de clicar em um botão
+        document.querySelectorAll('.button-container button').forEach(btn => {
+            btn.classList.remove('active'); // Remove a classe "active" dos outros botões
+        });
+        button.classList.add('active'); // Adiciona a classe "active" ao botão clicado
+    }
+
+    // Adiciona a underline no botão 1 ao carregar a página
+    window.onload = function () {
+        const firstButton = document.getElementById('button1');
+        loadPageAndHighlight(firstButton, 'informacoes/treinos.php'); // URL padrão ao carregar
+    };
+
+    // Controla a abertura e fechamento do painel de mensagens
+    document.getElementById('mensagens-btn').addEventListener('click', function () {
+        const panel = document.getElementById('mensagens-panel');
+        panel.classList.toggle('open');
+    });
+
+    // Fecha o painel de mensagens quando o botão "X" for clicado
+    document.getElementById('close-btn').addEventListener('click', function () {
+        const panel = document.getElementById('mensagens-panel');
+        panel.classList.remove('open');
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
 
 </html>

@@ -1,5 +1,5 @@
 <?php   
-
+    session_start();
     /* @Autor: Dalker Pinheiro
     Classe Controller */
     
@@ -61,13 +61,13 @@
         session_destroy();   
 
         header("Location: ../../view/login/index.html");
-exit;
+        exit;
 
-    } 
-    // se a requisição for editar
-    else if(isset($_POST['editar'])){
+    }
+    // se a requisição for editar 
+    else if(isset($_POST['acao']) && ($_POST['acao'] == "ATUALIZAR")){
 
-        $usuario->setId_user($u['id_user']); 
+        $usuario->setId_user($u[$_SESSION['id_user']]); 
 
 		$usuario->setNome($u['nome']); 
 
@@ -82,9 +82,11 @@ exit;
 		$usuario->setSexo($u['sexo']); 
 
 		$usuario->setTipo($u['tipo']);
+
+        $usuario->setDesc($u['descricao']);
         $usuarioDAO->atualizar($usuario);
 
-        header("Location: ../../usuario.php?msg=editado");
+        header("Location: ../../view/paginaInicial/index.php?msg=editado");
     }
     // se a requisição for deletar
     else if(isset($_GET['deletar'])){
