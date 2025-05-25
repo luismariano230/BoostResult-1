@@ -1,5 +1,9 @@
 <?php
-    session_start();
+session_start();
+if (!isset($_SESSION['nome']) || !isset($_SESSION['tipo'])) {
+    header("Location: ../../index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +64,7 @@
         }
 
         .profile {
-            background: #fff;
+            background: #FAFAFA;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
             overflow: hidden;
@@ -89,7 +93,7 @@
             align-items: center;
             justify-content: center;
             font-size: 32px;
-            color: #fff;
+            color: #FAFAFA;
             border: 2px white solid;
         }
 
@@ -120,7 +124,7 @@
         }
 
         .Users {
-            background: #fff;
+            background: #FAFAFA;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
             padding: 15px;
@@ -147,12 +151,12 @@
             border: none;
             padding: 10px;
             border-radius: 3px;
-            color: #ffff;
+            color: #FAFAFA;
         }
 
         .tweet-btn {
             background: #1da1f2;
-            color: #fff;
+            color: #FAFAFA;
             border: none;
             padding: 10px 20px;
             border-radius: 9999px;
@@ -200,6 +204,7 @@
             border-radius: 3px;
             border: none;
             background-color: gray;
+            color: #000;
         }
 
         .button-container {
@@ -211,7 +216,7 @@
         }
 
         .button-container button {
-            background: #fff;
+            background: #FAFAFA;
             border: none;
             font-size: 16px;
             padding: 10px 20px;
@@ -328,7 +333,7 @@
             width: 500px;
             /* Aumentei a largura do painel */
             height: 100%;
-            background: #fff;
+            background: #FAFAFA;
             box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
             transition: left 0.3s ease;
             z-index: 1000;
@@ -388,6 +393,65 @@
             box-sizing: border-box;
             /* Garante que o padding seja incluído na altura total */
         }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+        .dark-mode .sidebar,
+        .dark-mode .profile,
+        .dark-mode .Users,
+        .dark-mode .mensagens-panel,
+        .dark-mode .modal-content {
+            background-color: #1e1e1e;
+            color: #FAFAFA;
+            border-color: #333;
+        }
+
+        .dark-mode .search-input {
+            background-color: #333;
+            color: #FAFAFA;
+            border-color: #555;
+        }
+
+        .dark-mode .search-icon {
+            fill: #ccc;
+        }
+
+        .dark-mode .tweet-btn,
+        .dark-mode .Users .user button {
+            background-color: #2e7d32;
+        }
+
+        .dark-mode #sair {
+            background-color:#e3e3e3;
+            
+        }
+
+        .dark-mode #button3 {
+            background-color: #1e1e1e;
+            color: #FAFAFA;
+        }
+
+        .dark-mode #button2 {
+            background-color: #1e1e1e;
+            color: #FAFAFA;
+        }
+
+        .dark-mode #button1 {
+            background-color: #1e1e1e;
+            color: #FAFAFA;
+        }
+
+        .dark-mode #botaoBio {
+            background-color: #1c1c1c;
+            color: #FAFAFA;
+        }
+
+        .dark-mode #underline-indicator {
+            background-color: #FAFAFA;
+        }
     </style>
 </head>
 
@@ -410,6 +474,7 @@
     </div>
     <div class="sidebar">
         <ul>
+
             <li>Minha Conta</li>
             <li>
                 <?php
@@ -421,6 +486,9 @@
             <form method="post" action="../../app/controller/UsuarioController.php">
                 <button type="submit" name="acao" value="DESLOGAR" id="sair">Sair</button>
             </form>
+            <li>
+                <button id="toggleDarkMode" class="btn btn-sm btn-dark">Modo Escuro</button>
+            </li>
         </ul>
     </div>
 
@@ -450,7 +518,7 @@
             </form>
             <div class="profile-info">
                 <h1 id="nomeConta">
-                    <?php echo $_SESSION['nome'] ?>
+                    <?php echo $_SESSION['nome']; ?>
                 </h1>
                 <p id="tipoConta">
                     <?php echo $_SESSION['tipo']; ?>
@@ -464,7 +532,7 @@
                     }
                     ?>
                 </p>
-                <button type="button" class="secondary btn-sm border-0" data-toggle="modal" data-target="#modalExemplo">
+                <button type="button" class="secondary btn-sm border-0" data-toggle="modal" data-target="#modalExemplo" id="botaoBio">
                     Modificar bio
                 </button>
 
@@ -528,9 +596,8 @@
                 <div class="modal-body">
                     <form action="../../app/controller/UsuarioController.php" method="POST">
                         <label for="descricao">Descrição</label><br>
-                        <textarea id="TextDescription" name="descricao"></textarea><br><br>
-                        <button type="submit" name="acao" value="ATUALIZAR" class="secondary btn-sm border-0"
-                           >Atualizar</button>
+                        <textarea id="TextDescription" name="descricao" autofocus></textarea><br><br>
+                        <button type="submit" name="acao" value="ATUALIZAR" class="secondary btn-sm border-0">Atualizar</button>
                     </form>
                 </div>
 
@@ -566,21 +633,55 @@
     }
 
     // Adiciona a underline no botão 1 ao carregar a página
-    window.onload = function () {
+    window.onload = function() {
         const firstButton = document.getElementById('button1');
         loadPageAndHighlight(firstButton, 'informacoes/treinos.php'); // URL padrão ao carregar
     };
 
     // Controla a abertura e fechamento do painel de mensagens
-    document.getElementById('mensagens-btn').addEventListener('click', function () {
+    document.getElementById('mensagens-btn').addEventListener('click', function() {
         const panel = document.getElementById('mensagens-panel');
         panel.classList.toggle('open');
     });
 
     // Fecha o painel de mensagens quando o botão "X" for clicado
-    document.getElementById('close-btn').addEventListener('click', function () {
+    document.getElementById('close-btn').addEventListener('click', function() {
         const panel = document.getElementById('mensagens-panel');
         panel.classList.remove('open');
+    });
+
+    document.getElementById("toggleDarkMode").addEventListener("click", function() {
+        document.body.classList.toggle("dark-mode");
+
+        const btn = document.getElementById("toggleDarkMode");
+
+        if (document.body.classList.contains("dark-mode")) {
+            localStorage.setItem("modo", "escuro");
+            btn.textContent = "Modo Claro ☀️";
+            document.getElementById("toggleDarkMode").style.backgroundColor = "#FAFAFA";
+            document.getElementById("toggleDarkMode").style.color = "#000";
+        } else {
+            localStorage.setItem("modo", "claro");
+            btn.textContent = "Modo Escuro 🌙";
+            document.getElementById("toggleDarkMode").style.backgroundColor = "#000";
+            document.getElementById("toggleDarkMode").style.color = "#FAFAFA";
+        }
+    });
+
+    // Ao carregar a página, aplica o modo salvo e ajusta o texto do botão
+    
+    window.addEventListener("load", function() {
+        const btn = document.getElementById("toggleDarkMode");
+        if (localStorage.getItem("modo") === "escuro") {
+            document.body.classList.add("dark-mode");
+            btn.textContent = "Modo Claro ☀️";
+            document.getElementById("toggleDarkMode").style.backgroundColor = "#FAFAFA";
+            document.getElementById("toggleDarkMode").style.color = "#000";
+        } else {
+            btn.textContent = "Modo Escuro 🌙";
+            document.getElementById("toggleDarkMode").style.backgroundColor = "#000";
+            document.getElementById("toggleDarkMode").style.color = "#FAFAFA";
+        }
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
