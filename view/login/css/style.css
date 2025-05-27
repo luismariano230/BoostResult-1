@@ -4,6 +4,7 @@
     --green-hover-color:#269126;
     --green-complement-color:#269126;
     --gray-main:#ffffff;
+    --back-main:#111111;
 }
 
 *{
@@ -25,12 +26,11 @@ body {
     width: 100%;
     height: 100vh;
     z-index: 0;
-	background-color: #282424;
+	background-color: var(--back-main);
 }
 
 .page-content {
-	background-color: #282424;
-
+	background-color: var(--back-main);
 	margin:  0 auto;
 	height: 100vh;
 	display: flex;

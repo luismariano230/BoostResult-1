@@ -6,96 +6,70 @@
 	class Usuario{
 		//Atributos
 		private $id_user;
-
- 		private $nome;
-
- 		private $idade;
-
- 		private $telefone;
-
- 		private $email;
-
- 		private $senha;
-
- 		private $sexo;
-
- 		private $tipo;
-		private $desc;
-
- 				
+ 		private $nome;
+ 		private $idade;
+ 		private $telefone;
+ 		private $email;
+ 		private $senha;
+ 		private $sexo;
+ 		private $tipo;
+ 		private $tipo_usuario;
+ 				
 		//Métodos Getters e Setters
 		public function getId_user(){
 			return $this->id_user;
 		}
-
-		public function getNome(){
+		public function getNome(){
 			return $this->nome;
 		}
-
-		public function getIdade(){
+		public function getIdade(){
 			return $this->idade;
 		}
-
-		public function getTelefone(){
+		public function getTelefone(){
 			return $this->telefone;
 		}
-
-		public function getEmail(){
+		public function getEmail(){
 			return $this->email;
 		}
-
-		public function getSenha(){
+		public function getSenha(){
 			return $this->senha;
 		}
-
-		public function getSexo(){
+		public function getSexo(){
 			return $this->sexo;
 		}
-
-		public function getTipo(){
+		public function getTipo(){
 			return $this->tipo;
 		}
-
-		public function getDesc(){
-			return $this->tipo;
+		public function getTipo_usuario(){
+			return $this->tipo_usuario;
 		}
-
-		
+		
 		public function setId_user($id_user){
 			$this->id_user=$id_user;
 		}
-
-		public function setNome($nome){
+		public function setNome($nome){
 			$this->nome=$nome;
 		}
-
-		public function setIdade($idade){
+		public function setIdade($idade){
 			$this->idade=$idade;
 		}
-
-		public function setTelefone($telefone){
+		public function setTelefone($telefone){
 			$this->telefone=$telefone;
 		}
-
-		public function setEmail($email){
+		public function setEmail($email){
 			$this->email=$email;
 		}
-
-		public function setSenha($senha){
+		public function setSenha($senha){
 			$this->senha=$senha;
 		}
-
-		public function setSexo($sexo){
+		public function setSexo($sexo){
 			$this->sexo=$sexo;
 		}
-
-		public function setTipo($tipo){
+		public function setTipo($tipo){
 			$this->tipo=$tipo;
 		}
-
-		public function setDesc($desc){
-			$this->desc=$desc;
+		public function setTipo_usuario($tipo_usuario){
+			$this->tipo_usuario=$tipo_usuario;
 		}
-
-		
+		
 	}

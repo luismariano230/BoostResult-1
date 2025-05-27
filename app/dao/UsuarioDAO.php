@@ -89,8 +89,7 @@ class UsuarioDAO
 			$tipoUsuario = ($numUsuarios == 0) ? 'admin' : 'normal';
 
 			// Inserir novo usuário na tabela
-			$sql = 'INSERT INTO usuario (nome, idade, telefone, email, senha, sexo, tipo, tipo_usuario) 
-            VALUES (:nome, :idade, :telefone, :email, :senha, :sexo, :tipo, :tipo_usuario)';
+			$sql = 'INSERT INTO usuario (id_user, nome, idade, telefone, email, senha, sexo, tipo, tipo_usuario) VALUES (:id_user, :nome, :idade, :telefone, :email, :senha, :sexo, :tipo, :tipo_usuario)';
 			$consulta = Conexao::getConexao()->prepare($sql);
 
 			// Vincular os parâmetros
@@ -124,11 +123,10 @@ class UsuarioDAO
 			if ($consulta->rowCount() > 0) {
 				$dadosUsuario = $consulta->fetch(PDO::FETCH_ASSOC);
 				$_SESSION['tipo'] = $dadosUsuario['tipo'];
-				$_SESSION['id_user'] = $dadosUsuario['id_user'];
 				$_SESSION['email'] = $dadosUsuario['email'];
 				$_SESSION['nome'] = $dadosUsuario['nome'];
 				$_SESSION['tipo_usuario'] = $dadosUsuario['tipo_usuario'];
-				$_SESSION['descricao'] = $dadosUsuario['descricao'];
+
 			}
 
 		} catch (Exception $e) {
@@ -137,30 +135,30 @@ class UsuarioDAO
 	}
 
 	//Atualiza um elemento na tabela
-	public function atualizar(Usuario $usuario)
-	{
-		try {
-			$sql = 'UPDATE usuario SET id_user = :id_user, nome = :nome, idade = :idade, telefone = :telefone, email = :email, senha = :senha, sexo = :sexo, tipo = :tipo, descricao = :descricao WHERE id_user = :id_user';
+	public function atualizar(Usuario $usuario){
+        try {
+			$sql = 'UPDATE usuario SET id_user = :id_user, nome = :nome, idade = :idade, telefone = :telefone, email = :email, senha = :senha, sexo = :sexo, tipo = :tipo, tipo_usuario = :tipo_usuario WHERE id_user = :id_user';
 			$consulta = Conexao::getConexao()->prepare($sql);
-			$consulta->bindValue(':id_user', $usuario->getId_user());
+			$consulta->bindValue(':id_user',$usuario->getId_user()); 
 
-			$consulta->bindValue(':nome', $usuario->getNome());
+			$consulta->bindValue(':nome',$usuario->getNome()); 
 
-			$consulta->bindValue(':idade', $usuario->getIdade());
+			$consulta->bindValue(':idade',$usuario->getIdade()); 
 
-			$consulta->bindValue(':telefone', $usuario->getTelefone());
+			$consulta->bindValue(':telefone',$usuario->getTelefone()); 
 
-			$consulta->bindValue(':email', $usuario->getEmail());
+			$consulta->bindValue(':email',$usuario->getEmail()); 
 
-			$consulta->bindValue(':senha', $usuario->getSenha());
+			$consulta->bindValue(':senha',$usuario->getSenha()); 
 
-			$consulta->bindValue(':sexo', $usuario->getSexo());
+			$consulta->bindValue(':sexo',$usuario->getSexo()); 
 
-			$consulta->bindValue(':tipo', $usuario->getTipo());
-			$consulta->bindValue(':descricao', $usuario->getDesc());
-			$consulta->execute();
-		} catch (Exception $e) {
-			print "Erro ao atualizar Usuario <br>" . $e . '<br>';
-		}
+			$consulta->bindValue(':tipo',$usuario->getTipo()); 
+
+			$consulta->bindValue(':tipo_usuario',$usuario->getTipo_usuario());
+			$consulta->execute();			
+        } catch (Exception $e) {
+            print "Erro ao atualizar Usuario <br>" . $e . '<br>';
+        }
 	}
 }

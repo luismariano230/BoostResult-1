@@ -1,0 +1,7 @@
+FALTEI MAS FIZ UMAS COISINHA AI!
+
+deem uma olhada ai e alterem o q for preciso, tem a questão dessa
+imagem ai do sobre, para mudar é só ir no css e trocar o link do bg-image
+ou baixa logo ai e bota o endr do diretório.
+tem que dar uma verificada nos textos tbm.
+quiser ajuda pra fazer alguma coisa é só escrever e salvar algum arquivo ai no meu drive na hora da aula que vou ver aq.
